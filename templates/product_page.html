@@ -1,0 +1,133 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+
+{%endblock%}
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+		<div style="margin-left:3%; padding: 10px;"><h3>{{product.name}}</h3><br>
+		<div>
+		<span style="background: #F8F8FF; padding: 5px">Код товара: {{product.code}}</span></div>
+		<div style="margin-top: 1%;">
+			<div style="margin-left:3%; position: relative; float:left">
+			<img src="/static/img/{{product.slug}}.jpg" width="100%">
+
+
+			</div>
+
+			<div class="price_box">
+				
+				<div class="base_price">
+				<table id="price_table">
+				<tr>
+					<td width="40%" style="background: #F8F8FF; text-align: center" rowspan="0"><span class="small_info">Цена со скидкой:</span><br>
+					{{product.has_price}}- грн<br>
+					<div class="button_pay">Как получить скидку?</div>
+					</td>
+				</tr>
+					<tr>
+						<td>
+						<span class="small_info">Цена:</span><br>
+						{%if product.was_price > 0%}{{product.was_price}}{%else%} {{product.has_price}} {%endif%} грн
+						</td>
+						<td>
+							<span class="small_info">{%if product.number_in_store > 0%}&#10003; Товар в наличии{%else%}Товара нет в наличии{%endif%}</span>
+							<div>
+							{%if not in_cart%}
+							<form action="/add_to_cart" method="post">
+							{%csrf_token%}
+								<input type="hidden" name="cart_id" value="{{request.session.cart_id}}">
+								<input type="hidden" name="product" value="{{product.id}}">
+								<input type="submit"
+								{%if in_cart%} title="Убрать из корзины" value="В корзине" {%else%} title="Добавить в корзину" value="Купить" {%endif%}>
+							</form>
+							{%else%}
+							<form action="/delete_product/{{product.id}}" method="get">
+							<input style="background: orange; color: white;" type="submit" title="Убрать из корзины" value="В корзине">
+							</form>
+							{%endif%}
+							
+							</div>
+						</td>
+						</tr>
+					<tr>
+						<td>{{cost_month}} грн/мес</td>
+						<td>
+						<div class="button_pay">В кредит</div>
+						</td>
+					</tr>
+				</table>
+
+				</div>
+				<div class="tech_info">
+				Диагональ дисплея: {{product.diagonal}}";<br> 
+				Дисплей: {{product.display}}; <br>
+				Тип процессора: {{product.processor}}; <br>
+				Оперативная память: {{product.ram}} ГБ;<br> 
+				Жесткий диск HDD: {{product.hdd}} Гб; <br>
+				Операционная система: {{product.os}};<br>
+			</div>
+			</div>
+
+			<div class="delivery">
+				
+				<table>
+				<tr>
+					<td colspan="2"  class="text_delivery">
+						Доставка
+					</td>
+				</tr>
+					<tr>
+						<td class="img_delivery">
+							 <img src="/static/img/sites/itself.png" width="100%">
+						</td>
+						<td>
+							Самовывоз
+						</td>
+					</tr>
+					<tr>
+						<td class="img_delivery">
+							<img src="/static/img/sites/curier.png" width="100%"> 
+						</td>
+						<td>Доставка почтовой службой</td>
+					</tr>
+					<tr>
+						<td colspan="2"  class="text_delivery">Оплата</td>
+					</tr>
+					<tr>
+						<td class="img_delivery">
+							<img src="/static/img/sites/pay.png" width="100%">
+						</td>
+						<td>
+							Наличными, безналичными
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"  class="text_delivery">
+							Обмен/возврат
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							
+    						<span>- Обмен и возврат товара осуществляется в течение 14 дней после покупки, согласно закону Украины "О защите прав потребителей Украины"</span><br>
+    						- Гарантия: 12 месяцев
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+		<div class="description">
+			<div style="background:#F8F8FF; text-align: center; padding: 5px;">Обзор {{product.name}}</div>
+			<div style="padding: 10px">{{product.description|linebreaksbr}}</div>
+		</div>
+		
+
+	</div>
+</div>
+{%endblock%}

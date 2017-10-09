@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+
+{%endblock%}
+
+{%block general_content%}
+<div style="text-align: center; margin-top: 2%">
+<p style="font-size: 1.6em;">Ваш заказ принят и проходит стадию обработки.</p>
+<a href="/">Вернуться на главную страницу.</a>
+</div>
+{%endblock%}

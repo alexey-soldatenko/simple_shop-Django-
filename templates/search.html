@@ -1,0 +1,103 @@
+{%extends "base.html"%}
+{%load staticfiles%}
+{%block head%}
+{{block.super}}
+<script type="text/javascript">
+	function new_add(cart_name, product_id) {
+		var cart = document.getElementById(cart_name);
+		if (cart.src.indexOf("/static/img/sites/cart_no_add.png") >= 0) {
+			cart.src = "/static/img/sites/cart-add.png";
+			document.getElementById(("add_delete_cart_"+product_id)).submit();
+
+
+		}
+		else{
+			cart.src = "/static/img/sites/cart_no_add.png";
+			document.getElementById(("delete_"+product_id)).submit();
+
+		}
+	}
+</script>
+{%endblock%}
+
+
+
+{%block general_content%}
+<br>
+<h1 style="text-align: center">Наши товары</h1><br>
+<div class="container-products">
+{%if products%}
+{%for i in products%}
+<div class="product">
+
+	<div>
+	<img src="/static/img/{{i.slug}}.jpg" width="100%">
+	<div class="cart_add">
+	<img id="cart_{{i.slug}}" onclick="new_add('cart_{{i.slug}}','{{i.id}}')" width="30px" {%if i.id in cart_products%} src="/static/img/sites/cart-add.png" title="Убрать из корзины" {%else%} src="/static/img/sites/cart_no_add.png" title="Добавить в корзину" {%endif%}>
+	<form id="add_delete_cart_{{i.id}}" action="/add_to_cart" method="post">
+	{%csrf_token%}
+		<input type="hidden" name="cart_id" value="{{request.session.cart_id}}">
+		<input type="hidden" name="product" value="{{i.id}}">
+	</form>
+	<form id="delete_{{i.id}}" action="/delete_product/{{i.id}}" method="get">
+		<input type="hidden" name="product_id" value="{{i.id}}">
+	</form>
+	 </div>
+	</div>
+	
+	<div class="product-name"><a href="/{{i.manufacturer}}/{{i.slug}}">{{i.name|truncatechars:50}}</a></div>
+	код товара: {{i.code}}<br>
+	цена {{i.has_price}} грн
+</div>
+{%endfor%}
+</div>
+<div style="clear:both"></div>
+
+{%if products.paginator.num_pages > 1%}
+<div class="paginator">
+	{%if products.has_previous%}
+		<a href="./{{search}}&page={{products.previous_page_number}}">&lt;</a>
+	{%endif%}
+
+	{%for page in products.paginator.page_range%}
+	{%if page == 1 and page != products.number%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a>
+	{%endif%}
+	{%if page == products.number%}
+		<span style="color:red; font-size: 0.8em">{{page}}</span>
+	{%endif%}
+	{%if page == products.number|add:1 and products.number|add:1 != products.paginator.num_pages%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:2 and products.number|add:2 != products.paginator.num_pages%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:3%}
+		...
+	{%endif%}
+	{%if page == products.number|add:-1 and products.number|add:-1 != 1%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:-2 and products.number|add:-2 != 1%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:-3%}
+		...
+	{%endif%}
+	{%if page == products.paginator.num_pages and products.number != products.paginator.num_pages%}
+		<a href="./{{search}}&page={{page}}">{{page}}</a> 
+	{%endif%}
+	{%endfor%}
+
+	{%if products.has_next%}
+		<a href="./{{search}}&page={{products.next_page_number}}">&gt;</a>
+	{%endif%}
+</div>
+{%endif%}
+{%else%}
+<h3 style="text-align:center">По вашему запросу ничего не найдено.</h3>
+</div>
+{%endif%}
+{%endblock%}
+
+

@@ -1,0 +1,138 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'our_shops.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="body-container" style="position: relative">
+	<div style="width: 40%; left: 30%; background: white; border-radius: 10px; top: 10%; position: absolute; padding:10px">
+	{%if param == 'sign_up'%}
+<h2 style="text-align:center">Регистрация</h2>
+
+<div style=" width: 70%; margin: auto; border: 1px solid gray; margin-top: 5%; margin-bottom: 5%">
+			<div style="background:#F8F8FF; text-align: center; padding: 5px;">Введите ваши данные</div>
+			<div style="padding: 10px;">
+				<form action="/save" method="post">
+				{%csrf_token%}
+				<table>
+					<tr>
+						<td>
+							Ваше имя*
+						</td>
+						<td>
+							<input type="text" placeholder="Иван" maxlength="25" name="name" title="Введите ваше имя" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Ваша фамилия*
+						</td>
+						<td>
+							<input type="text" placeholder="Иванов" maxlength="25" name="last_name" title="Введите вашу фамилию" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Эл.почта*
+						</td>
+						<td>
+							<input type="text" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="my_@mail.com" title="Введите вашу действующую электронную почту." maxlength="50" name="email" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Пароль*
+						</td>
+						<td>
+							<input type="text" title="Введите ваш пароль" placeholder="******" maxlength="25" name="password1" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Повторите пароль*
+						</td>
+						<td>
+							<input type="text" title="Введите ваш пароль" placeholder="******" maxlength="25" name="password2" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Номер телефона*
+						</td>
+						<td>
+							<input type="text" pattern="\+[0-9]{12}" title="Введите ваш номер, например +380661111111" placeholder="+380667777777" maxlength="25" name="phone" required>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><input style="background:#F8F8FF; font: inherit; padding: 3px;" type="submit" value="Отправить"></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="text-align:center"><small style="color:red">{{message}}</small></td>
+					</tr>
+					<tr>
+						<td colspan="2">* - поля обязательные для заполнения.</td>
+					</tr>
+				</table>
+					<input type="hidden" name="num_products" value="{{num_products}}">
+					<input type="hidden" name="product" value="{{product.id}}">
+				</form>
+			</div>
+		</div>
+{%elif param == 'login'%}
+	<h2 style="text-align:center">Вход</h2>
+
+<div style=" width: 70%; margin: auto; border: 1px solid gray; margin-top: 5%; margin-bottom: 5%">
+			<div style="background:#F8F8FF; text-align: center; padding: 5px;">Введите ваши данные</div>
+			<div style="padding: 10px;">
+				<form action="/log_in" method="post">
+				{%csrf_token%}
+				<table>
+					<tr>
+						<td>
+							Ваше имя*
+						</td>
+						<td>
+							<input type="text" placeholder="Иван" maxlength="25" name="name" required>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							Эл.почта*
+						</td>
+						<td>
+							<input type="text" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="my_@mail.com" title="Введите вашу действующую электронную почту." maxlength="50" name="email" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Пароль*
+						</td>
+						<td>
+							<input type="text" title="Введите ваш пароль" placeholder="******" maxlength="25" name="password" required>
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2"><input style="background:#F8F8FF; font: inherit; padding: 3px;" type="submit" value="Отправить"></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="text-align:center"><small style="color:red">{{message}}</small></td>
+					</tr>
+					<tr>
+						<td colspan="2">* - поля обязательные для заполнения.</td>
+					</tr>
+				</table>
+					<input type="hidden" name="num_products" value="{{num_products}}">
+					<input type="hidden" name="product" value="{{product.id}}">
+				</form>
+			</div>
+		</div>
+{%endif%}
+
+	</div>
+</div>
+{%endblock%}

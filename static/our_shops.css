@@ -1,0 +1,89 @@
+.general_table{
+	width:100%; 
+	text-align: left; 
+	font: 1em/1.35 Arial,Helvetica,sans-serif; 
+	border-spacing: 0;
+	padding: 0;
+}
+
+table th{
+	font-family: Arial, Helvetica, FreeSans, "Liberation Sans", "Nimbus Sans L", sans-serif;
+	color: #e31837;;
+}
+.table_header{
+	background: #F8F8F8;
+}
+
+.table_adress{
+	padding-top: 10px;
+	padding-left: 0;
+	width: 40%;
+}
+
+.table_phone{
+	padding-top: 10px;
+	padding-left: 0;
+	width: 40%;
+}
+
+.table_grafic{
+	padding-top: 10px;
+	padding-left: 0;
+	width: 20%;
+}
+
+.general_delivery{
+	margin-top: 3%;
+	width: 70%;
+	margin-left: 15%;
+}
+
+.pay_delivery{
+	padding: 20px;
+	margin-top: 3%;
+	border: 1px solid black;
+	background: #F8F8F8;
+
+}
+
+.all_pay{
+	margin-top: 5%;
+}
+
+.pay_kinds{
+	margin-top: 3%;
+	margin-left: 10%;
+	width: 80%;
+}
+
+.pay_cashe{
+	width: 40%;
+	vertical-align: top;
+}
+
+
+.all_warranty{
+	width: 80%;
+	margin-top: 3%;
+	margin-left: 10%;
+	font-family: Arial, Helvetica, FreeSans, "Liberation Sans", "Nimbus Sans L", sans-serif;
+	font-size: 1em;
+}
+.all_warranty{
+	line-height: 1.4em;
+}
+
+.all_contacts{
+	width: 70%; 
+	padding: 3%; 
+	margin-left: 15%; 
+	font-family: Arial, Helvetica, FreeSans, "Liberation Sans", "Nimbus Sans L", sans-serif; 
+	font-size: 1em;
+}
+
+.contacts_phone{
+	float: right;
+	padding-top: 10px;
+	padding-left: 0;
+	width: 60%;
+}

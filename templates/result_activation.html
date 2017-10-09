@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<script type="text/javascript">
+	function delete_confirm(product_id){
+		var conf = confirm("Вы уверены?");
+		if (conf == true){
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/delete_product/"+product_id, false);
+			xhr.send();
+		}
+		
+	}
+</script>
+{%endblock%}
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+	<h3 style="text-align: center">{{answer}}</h3>
+</div>
+</div>
+{%endblock%}

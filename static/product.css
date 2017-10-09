@@ -1,0 +1,111 @@
+.price_box{
+	
+	width: 40%;
+	padding: 0;
+	position: relative;
+	float: left;
+	margin-left: 5%;
+	border-radius: 5px;
+	position: relative;
+
+}
+
+.discount{ 
+	color: white;
+	background: #e31837; 
+	
+}
+
+
+#price_table{
+	width: 100%;
+	border-spacing: 0px 0px;
+	border: 2px solid #F8F8FF;
+
+}
+
+table tr td{
+	padding: 5px;
+	padding-left: 10px;
+}
+.small_info{
+	font-size: 0.7em;
+}
+
+.button_pay{
+	background: #e31837;
+	color: white;
+	text-align: center;
+	padding: 3px;
+}
+
+table tr td div input[type=submit]{
+	background: #e31837;
+	padding: 0;
+	color: white;
+}
+
+.tech_info{
+	margin-top: 10px;
+	font-size: 0.8em;
+
+}
+
+.delivery{
+	float: right;
+	width: 20%;
+	margin-right: 5%;
+	font-size: 0.8em;
+	background: #F8F8FF;
+	padding: 0;
+}
+
+.img_delivery{
+	width: 20%;
+	
+}
+
+
+.text_delivery{
+	text-align: center;
+	background: white;
+}
+
+.description{
+	width: 70%;
+	border: 1px solid #F8F8FF;
+	clear: left;
+	float: left;
+	margin-left: 3%;
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+#table_user_cart{
+	text-align: center;
+	padding: 0;
+	border-spacing: 0px 0px;
+}
+
+#table_user_cart .last_row{
+	border-bottom: 2px solid #F8F8FF;
+	padding: 0;
+}
+table tr td input[type="submit"]{
+	background: inherit;
+	color: inherit;
+	font-size: inherit;
+	width: 100%;
+}
+
+
+
+
+#order{
+	border: none;
+	background: #e31837;
+	color: white;
+	font-size: inherit;
+	width: 18%;
+	float: left;
+}

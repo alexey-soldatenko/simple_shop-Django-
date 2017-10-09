@@ -1,0 +1,99 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<script type="text/javascript">
+	function delete_confirm(product_id){
+		var conf = confirm("Вы уверены?");
+		if (conf == true){
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/delete_product/"+product_id, false);
+			xhr.send();
+		}
+		
+	}
+</script>
+<style type="text/css">
+	#table_orders{
+		width: 90%;
+		margin: auto;
+		border-spacing: 0;
+		text-align: center;
+		border-collapse: collapse;
+		
+	}
+	#table_orders td{
+		border: 1px solid gray;
+		text-align: center;
+
+
+	}
+</style>
+
+{%endblock%}
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+	<div style="margin-top: 3%; margin-left: 35%;">
+	<h2>Ваши личные данные:</h2>
+		<table style="padding-left: 5%">
+			<tr>
+				<td>Имя</td>
+				<td>{{user.first_name}}</td>
+			</tr>
+			<tr>
+				<td>Фамилия</td>
+				<td>{{user.last_name}}</td>
+			</tr>
+			<tr>
+				<td>Эл. почта</td>
+				<td>{{user.email}}</td>
+			</tr>
+			<tr>
+				<td>Телефон</td>
+				<td>{{user.phone}}</td>
+			</tr>
+		</table>
+	</div><br>
+	{%if not orders%}
+	 <h2 style="text-align:center">На данный момент у вас нет заказов</h2>
+	{%else%}
+	<div style="margin: 20px; text-align: center">
+		<h2>Ваши заказы ({{orders_count}}):</h2>
+	</div>
+		<table  id="table_orders">
+		<tr>
+			<td style="text-align: center" colspan="2">Наименование</td>
+			<td>Цена</td>
+			<td>Количество</td>
+			<td>Дата</td>
+		</tr>
+		{%for order in orders%}
+			<tr>
+				<td width="20%">
+				<img width="50%" src="/static/img/{{order.product.slug}}.jpg"></td>
+				<td width="40%">
+				{{order.product.name}}	
+				</td>
+				<td width="10%">
+					{{order.product.has_price}} грн
+				</td>
+				<td width="10%">
+					{{order.quantity}} шт.
+				</td>
+				<td width="15%">
+					{{order.date|date:'d.m.Y, H:i'}}
+				</td>
+			</tr>
+		</form>
+		{%endfor%}
+		</table>
+		
+{%endif%}
+
+	</div>
+
+</div>
+{%endblock%}

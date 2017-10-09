@@ -1,0 +1,111 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<script type="text/javascript">
+	function delete_confirm(product_id){
+		var conf = confirm("Вы уверены?");
+		if (conf == true){
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/delete_product/"+product_id, false);
+			xhr.send();
+		}
+		
+	}
+</script>
+{%endblock%}
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+	{%if not cart%}
+	<div style="margin: 20px; text-align: center">
+		Ваша корзина пуста.</h2>
+	</div>  
+	{%else%}
+	<div style="margin: 20px; text-align: center">
+		<h2>Ваша корзина</h2>
+	</div>
+		<table style="" id="table_user_cart">
+		{%for i in products%}
+	<form action="/my_order" method="post">
+	{%csrf_token%}
+			<tr>
+			<input type="hidden" name="product_id" value="{{i.product.id}}">
+				<td width="20%">
+				<img width="50%" src="/static/img/{{i.product.slug}}.jpg"></td>
+				<td width="40%">
+				{{i.product.name}}	
+				</td>
+				<td width="15%">
+					{{i.product.has_price}} грн
+				</td>
+				<td width="15%">
+					<input type="number" min="1" max="{{i.product.number_in_store}}" style="width: 5em" name="num_products" value="1">
+				</td>
+				<td>
+					<a onclick="delete_confirm('{{i.product.id}}')" href=""><img width="20%" src="/static/img/sites/x.png" title="Удалить"></a>
+				</td>
+			</tr>
+			<tr>
+				<td class="last_row" colspan="5">
+				<input id="order" type="submit" value="Оформить заказ">	
+				</td>
+
+			</tr>
+		</form>
+		{%endfor%}
+		</table>
+		
+{%endif%}
+
+<div style="clear:both"></div>
+
+{%if products.paginator.num_pages > 1%}
+<div class="paginator">
+	{%if products.has_previous%}
+		<a href="/my_cart/{{products.previous_page_number}}">&lt;</a>
+	{%endif%}
+
+	{%for page in products.paginator.page_range%}
+	{%if page == 1 and page != products.number%}
+		<a href="/my_cart/{{page}}">{{page}}</a>
+	{%endif%}
+	{%if page == products.number%}
+		<span style="color:red; font-size: 0.8em">{{page}}</span>
+	{%endif%}
+	{%if page == products.number|add:1 and products.number|add:1 != products.paginator.num_pages%}
+		<a href="/my_cart/{{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:2 and products.number|add:2 != products.paginator.num_pages%}
+		<a href="/my_cart/{{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:3%}
+		...
+	{%endif%}
+	{%if page == products.number|add:-1 and products.number|add:-1 != 1%}
+		<a href="/my_cart/{{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:-2 and products.number|add:-2 != 1%}
+		<a href="/my_cart/{{page}}">{{page}}</a> 
+	{%endif%}
+	{%if page == products.number|add:-3%}
+		...
+	{%endif%}
+	{%if page == products.paginator.num_pages and products.number != products.paginator.num_pages%}
+		<a href="/my_cart/{{page}}">{{page}}</a> 
+	{%endif%}
+	{%endfor%}
+
+	{%if products.has_next%}
+		<a href="/my_cart/{{products.next_page_number}}">&gt;</a>
+	{%endif%}
+</div>
+{%endif%}
+
+
+	</div>
+
+</div>
+{%endblock%}

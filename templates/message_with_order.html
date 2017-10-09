@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<table style="border: 1px solid black; padding: 2px;">
+	<tr>
+		<td style="border-bottom: 1px solid black; text-align:center;" colspan="2">Новый заказ</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Имя</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{orderer_name}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Фамилия</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{orderer_lastname}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Название продукта (id = {{product_id}})</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{product_name}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Количество продуктов</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{num_products}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Почта заказчика</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{mail}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Телефон</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{phone}}</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 2px;">Дата заказа</td>
+		<td style="border-bottom: 1px solid black; padding: 2px;">{{date|date:"j.m.Y"}}</td>
+	</tr>
+</table>
+</body>
+</html>

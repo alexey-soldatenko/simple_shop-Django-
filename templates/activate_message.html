@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h2>Активация вашего аккаунта на сервисе {{domain}}</h2>
+<p>Рады видеть тебя, {{user}}, в рядах наших посетителей.</p>
+<p>Подтвердите вашу почту, перейдя по ссылке.</p>
+<p><a href="http://{{domain}}{% url 'activate' uidb64=uid token=token %}">http://{{domain}}{% url 'activate' uidb64=uid token=token %}</a></p> 
+</p>
+</body>
+</html>

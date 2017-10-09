@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block header%}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+
+{%endblock%}
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+
+		<div style="margin-left:5%; width: 40%; margin-top: 2%;  float:left;"><h3>{{product.name}}</h3><br>
+		<img style="float:left" src="/static/img/{{product.slug}}.jpg">
+		<div style="font-size:0.7em">
+				Диагональ дисплея: {{product.diagonal}}";<br> 
+				Тип процессора: {{product.processor}}; <br>
+				Оперативная память: {{product.ram}} ГБ;<br> 
+				Жесткий диск HDD: {{product.hdd}} Гб; <br>
+				Операционная система: {{product.os}};<br>
+			</div>
+			<div style="clear:both; margin-left:7%">Количество - {{num_products}}</div>
+	</div>
+
+	<div style="margin-left: 10%; margin-top: 2%; border: 1px solid gray; float: left">
+			<div style="background:#F8F8FF; text-align: center; padding: 5px;"> Оформить заказ</div>
+			<div style="padding: 10px;">
+				<form action="/save_order" method="post">
+				{%csrf_token%}
+				<table>
+					<tr>
+						<td>
+							Ваше имя
+						</td>
+						<td>
+							<input type="text" placeholder="Иван" maxlength="25" name="name" required value="{{user_data.0}}">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Ваша фамилия
+						</td>
+						<td>
+							<input type="text" placeholder="Иванов" maxlength="25" name="last_name" value="{{user_data.1}}" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Эл.почта
+						</td>
+						<td>
+							<input type="text" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="my_@mail.com" title="Введите вашу действующую электронную почту." maxlength="50" name="email" value="{{user_data.2}}" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Номер телефона
+						</td>
+						<td>
+							<input type="text" pattern="\+[0-9]{12}" title="Введите ваш номер, например +380661111111" placeholder="+380667777777" maxlength="25" name="phone" value="{{user_data.3}}" required>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><input style="background:#F8F8FF; font: inherit; padding: 3px;" type="submit" value="Отправить"></td>
+					</tr>
+				</table>
+					<input type="hidden" name="num_products" value="{{num_products}}">
+					<input type="hidden" name="product" value="{{product.id}}">
+				</form>
+			</div>
+		</div>
+
+	<div style="clear:both; width:80%; margin-left: 10%; padding-top: 5%"> 
+	<p>После отправки ваших данных наш сотрудник свяжется с Вами по тому номеру телефона и адресу электронной почты, которую Вы укажите в форме. Поэтому будьте внимательны при её заполнении.</p>
+	</div>
+
+</div>
+{%endblock%}

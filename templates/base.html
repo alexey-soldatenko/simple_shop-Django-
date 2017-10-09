@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+<html>
+{%block head%}
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href=" {% static "my_site_shop.css" %}">
+
+	<script src="{% static "filter.js" %}"></script>
+	<script type="text/javascript">
+	function search_form(){
+		var search_word = document.getElementById('search_field').value
+		document.location.href = ('/search/?search='+search_word);
+	}
+	</script>
+	<script type="text/javascript">
+	function show_auth(classname){
+		document.getElementsByClassName(classname)[0].style.display = 'block';
+	}
+
+	function hidden_auth(classname){
+		document.getElementsByClassName(classname)[0].style.display = 'none';
+	}
+	</script>
+</head>
+{%endblock%}
+
+<body onload="set_chekbox()">
+
+{%block header%}
+<header>
+<div class="head-info">
+	<ul>
+		<li><a href="/our_shops">Магазины</a></li>
+		<li><a href="/payments_and_delivery">Доставка и оплата</a></li>
+		<li><a href="/warranty">Гарантия</a></li>
+		<li><a href="/contacts">Контакты</a></li>
+		
+	</ul>
+</div>
+<div class="head-logo">
+	<div style="padding:10px; color:#e31837;">
+		<a style="color:#e31837; text-decoration: none;" href="/"><h1><i>Ноутбуки</i></h1></a>
+	</div>
+</div>
+<div class="head-content">
+	<div id="search-line">
+		
+			<input id="search_field" type="search-line" name="search" placeholder="Что вы ищете?">
+			
+			<input class="search-button" type="submit" value="Найти" onclick="search_form()">
+		
+	</div>
+	<div id="phone">
+		<div id="phone_symb">&#9742;</div>
+		<div id="phone_numb"><select>
+			<option>+380664538567</option>
+			<option>+380956345869</option>
+			</select>
+		</div>
+	</div>
+	<div id="cart-block">
+		<div class="logo-ac-cart">
+		<p style="font-size: 0.7em; text-align: center">{{cart_count}}</p>
+			<img src=" {% static "img/sites/cart.png" %}" width="70%">
+		</div>
+		<div class="descr-ac-cart" style="font-size: 0.8em"> <a href="/my_cart">Корзина</a></div>
+	</div>
+	<div id="account">
+		<div class="logo-ac-cart">
+			<img src=" {% static "img/sites/account.png" %}" width="100%">
+		</div>
+		<div class="acc"> 
+		{%if not user.is_authenticated%}<a onmouseover="show_auth('auth')" href="">Ваш аккаунт</a>
+		{%else%}
+		<a onmouseover="show_auth('acc_logout')" href="/my_account">{{user.username}}</a>
+		</div>
+			<div class="acc_logout" style="display: none" onmouseleave="hidden_auth('acc_logout')">
+			<a href="/my_account">Мой аккаунт</a>
+			<a href="/logout">Выход</a>
+		</div>
+		{%endif%}
+		</div>
+		<div class="auth" style="display: none" onmouseleave="hidden_auth('auth')">
+			<a href="/login">Вход</a>
+			<a href="/sign_up">Регистрация</a>
+		</div>
+		
+	</div>
+	
+</div>
+
+</header>
+{%endblock%}
+
+
+{%block content%}
+<div class="body-container">
+	<div class="context">
+		<div class="narrow_list">
+		<form id="filter_form">
+
+		<div id="Clear-filters"><label onclick="delete_filters()">Очистить фильтры
+		<img width="4%" src="/static/img/sites/x.png" title="Удалить"></label>
+		</div>
+
+			<dl>
+				<dt>Виды</dt>
+					
+					<label onclick="submit_form()"><dd> 
+					<input class="kinds" type="checkbox" id="ultra" name="ultra"> Ультрабуки</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="kinds" type="checkbox" name="netbook"> Нетбуки</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="kinds" type="checkbox" name="game"> Игровые</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="kinds" type="checkbox" name="multimedia"> Мультимедийные</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="kinds" type="checkbox" name="workstudy"> Работа и учёба</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="kinds" type="checkbox" name="exclusive"> Эксклюзивные</dd></label>
+					
+				<dt>Цена</dt>
+				<dd>
+					От <input onclick="show_button()" class="price" type="number" min="0" max="20000" pattern="[0-9]{0,5}" name="price_min">
+					До <input onclick="show_button()" class="price" type="number" min="0" max="20000" pattern="[0-9]{0,5}" name="price_max">
+					<label><div id="sub_ok" onclick="submit_form()">Ok</div></label>
+				</dd>
+
+				<dt>Производитель</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="Xiaomi">Xiaomi</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="Apple" id="Apple">Apple</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="MSI">MSI</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="Lenovo">Lenovo</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="Acer">Acer</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="manufacturer" type="checkbox" name="Asus">Asus</dd></label>
+
+				<dt>Диагональ дисплея</dt>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="12"> 12"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="13"> 13"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="14"> 14"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="15"> 15"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="16"> 16"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="17"> 17"</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="diagonal" type="checkbox" name="18"> 18"</dd></label>
+
+				<dt>Дисплей</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="display" type="checkbox" name="glossy">Глянцевый экран</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="display" type="checkbox" name="mat">Матовый экран</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="display" type="checkbox" name="sensor">Сенсорный экран</dd></label>
+
+				<dt>Процессор</dt>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="AMDDualCore"> AMD Dual-Core</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="AMDQuadCore"> AMD Quad-Core</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="Pentium"> Intel Pentium</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="Corei3"> Intel Core i3</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="Corei5"> Intel Core i5</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="processor" type="checkbox" name="Corei7"> Intel Core i7</dd></label>
+
+				<dt>Оперативная память</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="2">2Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="4">4Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="6">6Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="8">8Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="12">12Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="ram" type="checkbox" name="16">16Гб</dd></label>
+
+				<dt>Графический адаптер</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="grafic" type="checkbox" name="ATIRadeon">ATI Radeon</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="grafic" type="checkbox" name="NvidiaGeForce">Nvidia Geforce</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="grafic" type="checkbox" name="NvidiaQuadro">Nvidia Quadro</dd></label>
+
+				<dt>Жесткий диск HDD</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="hdd" type="checkbox" name="250-320">250-320Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="hdd" type="checkbox" name="500-750">500-750Гб</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="hdd" type="checkbox" name="1-2">1-2Тб</dd></label>
+					
+
+				<dt>Оптический привод</dt>
+					<label onclick="submit_form()"><dd> 
+					<input class="dvd" type="checkbox" name="blueray"> Blue-Ray</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="dvd" type="checkbox" name="dvd"> DVD</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="dvd" type="checkbox" name="not">Нет</dd></label>
+
+				<dt>Операционная система</dt>
+					<label onclick="submit_form()"><dd> 
+					<input class="os" type="checkbox" name="FreeDos"> Free Dos</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="os" type="checkbox" name="Windows10"> Windows 10</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="os" type="checkbox" name="MacOS"> Mac Os</dd></label>
+					<label onclick="submit_form()"><dd> 
+					<input class="os" type="checkbox" name="Linux"> Linux</dd></label>
+
+				<dt>Встроенная цифровая камера</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="webcam" type="checkbox" name="0.3mp">0,3Мп</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="webcam" type="checkbox" name="1mp">1Мп</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input  class="webcam" type="checkbox" name="1.3mp">1,3Мп</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="webcam" type="checkbox" name="2mp">2Мп</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="webcam" type="checkbox" name="HD">HD WebCam</dd></label>
+
+				<dt>Вес</dt>
+					<label onclick="submit_form()"><dd>
+					<input class="weight" type="checkbox" name="0-1">менее 1кг</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="weight" type="checkbox" name="1-1.5">от 1 до 1,5кг</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="weight" type="checkbox" name="1.5-2">от 1,5 до 2кг</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="weight" type="checkbox" name="2-2.5">от 2 до 2,5кг</dd></label>
+					<label onclick="submit_form()"><dd>
+					<input class="weight" type="checkbox" name="2.5-3">от 2,5 до 3кг</dd></label>
+
+			</dl>
+		</form>
+		</div>
+			<div class="general-content">
+		{%block general_content%}
+
+		{%endblock%}
+			</div>
+	</div>
+
+{%endblock%}
+
+{%block footer%}
+	<footer>
+	<div class="footer_info">
+		<ul>
+			<li><a href="/about_us">О нас</a></li>
+			<li><a href="/our_shops">Сеть магазинов</a></li>
+			<li><a href="/contacts">Контакты</a></li>
+			<li><a href="/payments_and_delivery">Доставка и оплата</a></li>
+			<li><a href="/warranty">Гарантия и сервисные центры</a></li>
+			
+		</ul>
+		&copy;Soldatenko Alexey 2017
+	</div>
+</footer>
+{%endblock%}
+</div>
+</body>
+</html>
